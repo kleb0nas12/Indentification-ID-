@@ -7,7 +7,7 @@ import hashlib
 
 class CoreId:
 
-    def __init__(self, pass_type, image_loc):
+    def __init__(self, pass_type : str, image_loc : str):
         self.pass_type = pass_type
         self.image_loc = image_loc
 
@@ -33,4 +33,9 @@ class CoreId:
 
 docu = R'A:\documents\lt_pass1.jpg'
 
-print(CoreId('lt_pass_rev', docu).get_passport_data())
+x = CoreId('lt_pass_rev', docu).get_passport_data()
+print(type(x))
+
+
+for line in x:
+    print(line)
