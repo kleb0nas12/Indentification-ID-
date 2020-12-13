@@ -14,8 +14,8 @@ class MainWindow:
         self.main_win = QMainWindow()
         self.ui = Ui_MainWindow() # layout access
         self.ui.setupUi(self.main_win)
-        self.zil_core = CoreId() # ZIlId access
-        self.err_box = ErrorBox()
+        self.zil_core = CoreId() # ZilID access
+        self.err_box = ErrorBox() #error message box
         self.doc_path = None #document path location
 
 
@@ -80,7 +80,8 @@ class MainWindow:
             if output_data is None: #if request failed
                 pass # exception has occured during request execution and was raised by CoreId class' module
             else:
-                pass
+                _doc_data = self.zil_core.parse_data(output_data)
+                print(_doc_data)
 
 
 

@@ -1,1 +1,1 @@
-api_key = 'aflDwjfPIzP80ejf8oYaUT8mGpWkToZuo4NkTAWdP'
+api_key = 'flDwjfPIzP80ejf8oYaUT8mGpWkToZuo4NkTAWdP'

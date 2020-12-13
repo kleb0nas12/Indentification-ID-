@@ -42,4 +42,14 @@ class CoreId:
             self.err_handler.show(f'HTTPError with status{r.status_code}',f'API call failed with reason: \n{http_error}')
         except Exception as e:
             self.err_handler.show('Exception has occured', f'API call failed due reasons: \nException error: {e}\n Message: {r.content}')
+
+
+    def parse_data(self, data:str)-> dict: # parsing string data to get required elements (name,surname,bod, etc...)
+        _data = data.split('\n')
+        if len(_data) > 20:
+            _type_of = 'Passport'
+            return {'Name': _data[12], 'Surname': _data[10],'DoB': _data[17],'country': _data[23],'sex':_data[22],'personal_code':_data[18]}  
+        else:
+            _type_of = 'Id_card'  
+            return {'Name': _data[5], 'Surname': _data[4],'DoB': _data[7],'country': _data[10],'sex':_data[9],'personal_code':_data[8]}  
            
