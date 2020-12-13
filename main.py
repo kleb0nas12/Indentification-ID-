@@ -112,17 +112,18 @@ class MainWindow:
 
                 # creating main message body for the report
                 _info_text = f'''     --- Verification has been {_check} --- 
-                                \n\n       **** Passport/Id Data ****
+                                \n\n           **** Passport/Id Data ****
                                 \n Name : {_doc_data["Name"]};  Surname : {_doc_data["Surname"]};
-                                \n Date of Birth: {_dob};  Country : {_doc_data["country"]};
+                                \n Date of Birth : {_dob};  Country : {_doc_data["country"]};
                                 \n Gender : {_doc_data["gender"]};  Personal Code : {_doc_data["personal_code"]}; 
-                                \n ********************************************************************
-                                \n       **** Provided Data ****
+                                \n ************************************************************
+                                \n           **** Provided Data ****
                                 \n Name : {name}; [{_name_status}]
                                 \n Surname : {surname}; [{_surname_status}]
                                 \n Date of Birth : {dob}; [{_dob_status}]'''
+                
                 # showing up the report
-                self.err_box.show(' ******** RESULT PAGE ********', _info_text)
+                self.err_box.show(' ******** RESULT PAGE ********', _info_text) # using the same error message construct (same output functionality)
                                 
                 
     #  method to show output
