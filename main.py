@@ -32,19 +32,39 @@ class MainWindow:
     
     # method to check validity of entered data and main process execution
     def verification(self):
+
+        ## Verification of input data ##
         def _check_name(name: str)-> bool: #method to check if name is valid (only type of letters)
             if name.isalpha():
                 return True
             return False
+
         def _check_surname(surname: str)-> bool: #method to check if surname is valid (only type of letters)
             if surname.isalpha():
                 return True
             return False
+
         def _check_dob(dob: str)->bool: # regular expression method to check if provided date of birth (dob) matches pattern (YYYY-MM-DD)
             pattern = re.match('^(19[0-9][0-9]|20[0-9][0-9])(-)(0[1-9]|1[0-2])(-)(0[1-9]|1[0-9]|2[0-9]|3[0-1]$', dob)
             if pattern:
                 return True
             return False
+
+        def _exec_check(): # Executing checking and returning values
+            name = self.ui.lineEdit.text() # name value from name_field
+            surname = self.ui.lineEdit_2.text()  # surname value from surname_field
+            dob = self.ui.lineEdit_3.text() # date of birth value from dob_field
+
+            return _check_name(name),_check_surname(surname), _check_dob(dob)
+        
+        ##
+        text_values= _exec_check() # logical values of input validity -> tuple(True/False)
+
+        if False in text_values:
+            pass
+        else:
+            self.zil_core.get_passport_data(self.doc_path,'lt_pass_rev')
+
 
 
 
