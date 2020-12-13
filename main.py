@@ -11,9 +11,9 @@ from PyQt5 import QtGui
 
 class MainWindow:
     def __init__(self):
-        self.main_win = QMainWindow()
+        self.main_win = QMainWindow()# initializing UI window
         self.ui = Ui_MainWindow() # layout access
-        self.ui.setupUi(self.main_win)
+        self.ui.setupUi(self.main_win) #setting up window functionality
         self.zil_core = CoreId() # ZilID access
         self.err_box = ErrorBox() #error message box
         self.doc_path = None #document path location
@@ -35,6 +35,10 @@ class MainWindow:
     # method to check validity of entered data and main process execution
     def verification(self):
 
+        name = self.ui.lineEdit.text().upper() # name value from name_field
+        surname = self.ui.lineEdit_2.text().upper() # surname value from surname_field
+        dob = self.ui.lineEdit_3.text() # date of birth value from dob_field
+
         ## Verification of input data ##
         def _check_name(name: str)-> bool: #method to check if name is valid (only type of letters)
             if name.isalpha():
@@ -53,10 +57,6 @@ class MainWindow:
             return False
 
         def _exec_check(): # Executing check and returning values
-            name = self.ui.lineEdit.text() # name value from name_field
-            surname = self.ui.lineEdit_2.text()  # surname value from surname_field
-            dob = self.ui.lineEdit_3.text() # date of birth value from dob_field
-
             return _check_name(name),_check_surname(surname), _check_dob(dob)
         
         ##
@@ -80,20 +80,54 @@ class MainWindow:
             if output_data is None: #if request failed
                 pass # exception has occured during request execution and was raised by CoreId class' module
             else:
-                _doc_data = self.zil_core.parse_data(output_data)
-                print(_doc_data)
+                _doc_data = self.zil_core.parse_data(output_data) #retrieving parsed date from MRZ zone
+                ## showing and comparing result in a info box
+
+                #transforming MRZ retreived Date of birth to YYYY-MM-DD format
+                _dob = _doc_data['DoB'].split(' ')
+                _dob = f'{_dob[2]}-{_dob[1]}-{_dob[0]}'
+                
+                # getting status of data comparison
+                if name != _doc_data['Name'] or surname != _doc_data['Surname'] or dob != _dob:
+                    _check = 'UNSUCCESSFUL'
+                    if name != _doc_data['Name']:
+                        _name_status = 'FAILED'
+                    else:
+                        _name_status = 'PASSED'
+                    if surname != _doc_data['Surname']:
+                        _surname_status = 'FAILED'
+                    else:
+                        _surname_status = 'PASSED'
+                    if dob != _dob:
+                        _dob_status = 'FAILED'
+                    else:
+                        _dob_status = 'PASSED'
+
+                else:
+                    _check = 'SUCCESSFUL'
+                    _name_status = 'PASSED'
+                    _surname_status = 'PASSED'
+                    _dob_status = 'PASSED'
 
 
-
-
-        
-
+                # creating main message body for the report
+                _info_text = f'''     --- Verification has been {_check} --- 
+                                \n\n       **** Passport/Id Data ****
+                                \n Name : {_doc_data["Name"]};  Surname : {_doc_data["Surname"]};
+                                \n Date of Birth: {_dob};  Country : {_doc_data["country"]};
+                                \n Gender : {_doc_data["gender"]};  Personal Code : {_doc_data["personal_code"]}; 
+                                \n ********************************************************************
+                                \n       **** Provided Data ****
+                                \n Name : {name}; [{_name_status}]
+                                \n Surname : {surname}; [{_surname_status}]
+                                \n Date of Birth : {dob}; [{_dob_status}]'''
+                # showing up the report
+                self.err_box.show(' ******** RESULT PAGE ********', _info_text)
+                                
+                
     #  method to show output
     def show_main(self):
         self.main_win.show()
-
-
-
 
 if __name__ == '__main__':
     # application setup
