@@ -10,7 +10,7 @@ import hashlib
 class CoreId:
     
     '''
-    Class methods to fetch and handle data from the
+    Class construct to fetch and handle data from the
     ZealID api endpoint.
     '''
 
