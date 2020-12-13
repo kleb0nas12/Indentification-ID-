@@ -15,7 +15,7 @@ class CoreId:
     '''
 
     def __init__(self):
-        self.err_handler = ErrorBox() #error message box
+        self.err_handler = ErrorBox() #error message box implementation
 
     # validating and getting data from MRZ zone
     def get_passport_data(self,image_loc,pass_type) -> str:  
@@ -26,8 +26,8 @@ class CoreId:
                 file_bin = img_file.read() # binary value of image
                 img_base64 = base64.b64encode(file_bin).decode('utf-8') #getting base64 value
                 img_sha1 = hashlib.sha1()
-                img_sha1.update(file_bin) # sha1 value
-            return img_base64, img_sha1.hexdigest()
+                img_sha1.update(file_bin) 
+            return img_base64, img_sha1.hexdigest() # sha1 value
 
         document, digest = _get_base64_sha1() # getting document and digest values
 
@@ -36,7 +36,7 @@ class CoreId:
         head = {'x-api-key': api_key, 'Content-type': 'application/json'}
         data = {'document': document, 'digest': digest, 'type': pass_type}
 
-        # calling request transaction
+        # executing <post> transaction
         try:
             r = requests.post(url, data=json.dumps(data), headers=head)
             content = json.loads(r.content)
@@ -50,7 +50,7 @@ class CoreId:
     def parse_data(self, data:str)-> dict: 
         _data = data.split('\n') # formatting string value 
 
-        # Assumeing that the response (string) body format stay the same , returning values from api call 
+        # Assuming that the response (string) body format stay the same , returning values from api call 
         if len(_data) > 20:
             #type = Passport
             return {'Name': _data[12], 'Surname': _data[10],'DoB': _data[17],'country': _data[23],'gender':_data[22],'personal_code':_data[18]}  

@@ -10,6 +10,7 @@ from PyQt5 import QtGui
 
 
 class MainWindow:
+    ''' Laying out main functionality of the GUI program'''
     def __init__(self):
         self.main_win = QMainWindow()# initializing UI window
         self.ui = Ui_MainWindow() # layout access
@@ -81,8 +82,9 @@ class MainWindow:
                 pass # exception has occured during request execution and was raised by CoreId class' module
             else:
                 _doc_data = self.zil_core.parse_data(output_data) #retrieving parsed date from MRZ zone
-                ## showing and comparing result in a info box
-
+                
+                ## showing and comparing result in a info box ##
+                
                 #transforming MRZ retreived Date of birth to YYYY-MM-DD format
                 _dob = _doc_data['DoB'].split(' ')
                 _dob = f'{_dob[2]}-{_dob[1]}-{_dob[0]}'
