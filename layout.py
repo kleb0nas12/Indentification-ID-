@@ -83,7 +83,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "ZealID Pro"))
-        self.label.setText(_translate("MainWindow", "Please enter personal iformation :"))
+        self.label.setText(_translate("MainWindow", "Please enter personal information :"))
         self.lineEdit.setPlaceholderText(_translate("MainWindow", "Enter Name"))
         self.label_2.setText(_translate("MainWindow", "Name:"))
         self.lineEdit_2.setPlaceholderText(_translate("MainWindow", "Enter Surname"))

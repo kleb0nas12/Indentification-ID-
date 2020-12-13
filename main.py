@@ -1,6 +1,6 @@
 import sys
 import re
-from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog
+from PyQt5.QtWidgets import QApplication, QFileDialog, QMainWindow, QMessageBox
 from layout import Ui_MainWindow
 from zilcore import CoreId
 from PyQt5 import QtGui
@@ -28,7 +28,7 @@ class MainWindow:
         file_path = QFileDialog.getOpenFileName() # getting file path 
         self.doc_path = file_path[0]
         file_id = file_path[0].split('/')[-1] # getting file name from the path string
-        self.ui.path_label.setText(file_id) # showing file name in the application after 'upload'
+        self.ui.path_label.setText(file_id) # showing file name in the application after 'upload' button is clicked
     
     # method to check validity of entered data and main process execution
     def verification(self):
@@ -45,12 +45,12 @@ class MainWindow:
             return False
 
         def _check_dob(dob: str)->bool: # regular expression method to check if provided date of birth (dob) matches pattern (YYYY-MM-DD)
-            pattern = re.match('^(19[0-9][0-9]|20[0-9][0-9])(-)(0[1-9]|1[0-2])(-)(0[1-9]|1[0-9]|2[0-9]|3[0-1]$', dob)
+            pattern = re.match('^(19[0-9][0-9]|20[0-9][0-9])(-)(0[1-9]|1[0-2])(-)(0[1-9]|1[0-9])|2[0-9]|3[0-1]$', dob)
             if pattern:
                 return True
             return False
 
-        def _exec_check(): # Executing checking and returning values
+        def _exec_check(): # Executing check and returning values
             name = self.ui.lineEdit.text() # name value from name_field
             surname = self.ui.lineEdit_2.text()  # surname value from surname_field
             dob = self.ui.lineEdit_3.text() # date of birth value from dob_field
@@ -58,12 +58,18 @@ class MainWindow:
             return _check_name(name),_check_surname(surname), _check_dob(dob)
         
         ##
-        text_values= _exec_check() # logical values of input validity -> tuple(True/False)
+
+        text_values= _exec_check() #getting logical values of input validity -> tuple(True/False)
 
         if False in text_values:
-            pass
+            self.show()
         else:
-            self.zil_core.get_passport_data(self.doc_path,'lt_pass_rev')
+            output_data = self.zil_core.get_passport_data(self.doc_path,'lt_pass_rev')
+            print(output_data)
+            if output_data is None:
+                pass # exception has occured and was raised by CoreId class module
+            else:
+                print('Pavyko!\n check the data')
 
 
 
@@ -73,6 +79,13 @@ class MainWindow:
     #  method to show output
     def show_main(self):
         self.main_win.show()
+    
+    def show(self):
+        msg = QMessageBox()
+        msg.setWindowTitle('As krutas')
+        msg.setText('Pavyko!\n check the data')
+        _run = msg.exec_()
+
 
 
 
