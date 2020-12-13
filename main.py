@@ -2,6 +2,7 @@ import sys
 import re
 from PyQt5.QtWidgets import QApplication, QFileDialog, QMainWindow, QMessageBox
 from layout import Ui_MainWindow
+from widgets import ErrorBox
 from zilcore import CoreId
 from PyQt5 import QtGui
 
@@ -14,6 +15,7 @@ class MainWindow:
         self.ui = Ui_MainWindow() # layout access
         self.ui.setupUi(self.main_win)
         self.zil_core = CoreId() # ZIlId access
+        self.err_box = ErrorBox()
         self.doc_path = None #document path location
 
 
@@ -61,11 +63,20 @@ class MainWindow:
 
         text_values= _exec_check() #getting logical values of input validity -> tuple(True/False)
 
-        if False in text_values:
-            self.show()
+        if False in text_values: # if info was not provided correctly , returning error message box with fields to check and correct
+            _text = ''
+            if text_values[0] == False:
+                _text = _text +'\n - Name (only letters!)'
+            if text_values[1] == False:
+                _text = _text +'\n - Surname (only letters!)' 
+            if text_values[2] == False:
+                _text = _text +'\n - Date of Birth (format YYYY-MM-DD)'
+
+            _error_message = 'Please correct the fields: \n {}'.format(_text)
+
+            self.err_box.show('Input Error',_error_message)
         else:
             output_data = self.zil_core.get_passport_data(self.doc_path,'lt_pass_rev')
-            print(output_data)
             if output_data is None:
                 pass # exception has occured and was raised by CoreId class module
             else:
@@ -79,12 +90,6 @@ class MainWindow:
     #  method to show output
     def show_main(self):
         self.main_win.show()
-    
-    def show(self):
-        msg = QMessageBox()
-        msg.setWindowTitle('As krutas')
-        msg.setText('Pavyko!\n check the data')
-        _run = msg.exec_()
 
 
 
