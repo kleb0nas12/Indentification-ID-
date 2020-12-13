@@ -1,5 +1,6 @@
 import requests
 from requests.exceptions import HTTPError
+from widgets import ErrorBox
 from key import api_key
 import json
 import base64
@@ -7,10 +8,15 @@ import hashlib
 
 
 class CoreId:
+    
     '''
     Class methods to handle and fetch data from the
     ZealID api endpoint.
     '''
+
+    def __init__(self):
+        self.err_handler = ErrorBox() #error message box
+
 
     def get_passport_data(self,image_loc,pass_type) -> str:  # validating and getting data from MRZ zone
 
@@ -33,8 +39,7 @@ class CoreId:
             content = json.loads(r.content)
             return content.get('ocr_texts')[0]
         except requests.HTTPError as http_error:
-            print(http_error)
-            # raise pop up window with error
+            self.err_handler.show(f'HTTPError with status{r.status_code}',f'API call failed with reason: \n{http_error}')
         except Exception as e:
-            print(e)
-            # raise pop up windiw
+            self.err_handler.show('Exception has occured', f'API call failed due reasons: \nException error: {e}\n Message: {r.content}')
+           

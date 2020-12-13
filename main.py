@@ -64,23 +64,23 @@ class MainWindow:
         text_values= _exec_check() #getting logical values of input validity -> tuple(True/False)
 
         if False in text_values: # if info was not provided correctly , returning error message box with fields to check and correct
-            _text = ''
+            _text = '' #error message text
             if text_values[0] == False:
-                _text = _text +'\n - Name (only letters!)'
+                _text = _text +'\n - Name (only letters)'
             if text_values[1] == False:
-                _text = _text +'\n - Surname (only letters!)' 
+                _text = _text +'\n - Surname (only letters)' 
             if text_values[2] == False:
                 _text = _text +'\n - Date of Birth (format YYYY-MM-DD)'
 
-            _error_message = 'Please correct the fields: \n {}'.format(_text)
+            _error_message = f'Please correct the fields: \n {_text}'
 
-            self.err_box.show('Input Error',_error_message)
+            self.err_box.show('Input Error',_error_message) # error message box
         else:
-            output_data = self.zil_core.get_passport_data(self.doc_path,'lt_pass_rev')
-            if output_data is None:
-                pass # exception has occured and was raised by CoreId class module
+            output_data = self.zil_core.get_passport_data(self.doc_path,'lt_pass_rev') # executing ZilId api request
+            if output_data is None: #if request failed
+                pass # exception has occured during request execution and was raised by CoreId class' module
             else:
-                print('Pavyko!\n check the data')
+                pass
 
 
 
