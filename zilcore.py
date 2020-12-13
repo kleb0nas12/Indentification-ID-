@@ -12,7 +12,7 @@ class CoreId:
     ZealID api endpoint.
     '''
 
-    def get_passport_data(self,image_loc,pass_type) -> str:  # validating  getting data from MRZ zone
+    def get_passport_data(self,image_loc,pass_type) -> str:  # validating and getting data from MRZ zone
 
         def _get_base64_sha1() -> tuple:  # transforming passport image to binary nad getting base64 and sha1 values
             with open(image_loc, 'rb') as img_file:

@@ -71,6 +71,9 @@ class Ui_MainWindow(object):
         self.path_label.setObjectName("path_label")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.path_label.setFont(font)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
