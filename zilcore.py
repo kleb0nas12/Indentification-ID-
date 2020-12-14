@@ -18,7 +18,7 @@ class CoreId:
         self.err_handler = ErrorBox() #error message box implementation
 
     # validating and getting data from MRZ zone
-    def get_passport_data(self,image_loc,pass_type) -> str:  
+    def get_passport_data(self,image_loc:str,pass_type:str) -> str:  
 
         # transforming passport image to binary nad getting base64 and sha1 values
         def _get_base64_sha1() -> tuple:
