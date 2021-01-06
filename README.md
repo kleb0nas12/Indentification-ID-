@@ -1,4 +1,4 @@
-# ZealID_task - simple GUI application to validate personal data
+# Simple GUI application to validate personal data
 
 ## Required packages
 

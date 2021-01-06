@@ -40,6 +40,7 @@ class CoreId:
         try:
             r = requests.post(url, data=json.dumps(data), headers=head)
             content = json.loads(r.content)
+            print(r.content)
             return content.get('ocr_texts')[0]
         except requests.HTTPError as http_error:
             self.err_handler.show(f'HTTPError with status{r.status_code}',f'API call failed with reason: \n{http_error}')
